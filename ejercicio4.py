@@ -7,7 +7,9 @@
 # la transformada inversa para graficar la nueva senal (figura 'filtro.png')
 
 import numpy as np
-
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 n = 512 # number of point in the whole interval
 f = 200.0 #  frequency in Hz
@@ -16,3 +18,12 @@ t = np.linspace( 0, (n-1)*dt, n)
 y = np.sin(2 * np.pi * f * t) + np.cos(2 * np.pi * f * t * t)
 noise = 1.4*(np.random.rand(n)+0.7)
 y  =  y + noise
+def TFourier(f):
+    l=len(f)
+    TF=np.zeros(l)
+    for n in range(l):
+        for m in range(l):
+            TF[n]+=(f[n]*np.exp(1j*n*m/l))
+    return(TF)
+plt.plot(np.abs(TFourier(y)))
+plt.savefig('fourier.png')
